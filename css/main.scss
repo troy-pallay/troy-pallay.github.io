@@ -87,6 +87,12 @@ html {
 
 .blog-container table, th, td {
   border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-container th, td {
+  padding: .5vw;
 }
 
 .blog-container pre, code {
