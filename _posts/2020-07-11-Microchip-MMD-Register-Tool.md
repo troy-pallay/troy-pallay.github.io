@@ -8,7 +8,7 @@ categories: microchip c software
 
 Recently I have been working with Microchip's KSZ9896C Gigabit Ethernet Switch in a board design (datasheet found **[here](https://www.microchip.com/wwwproducts/en/KSZ9896)**). When the switch is handling packets between two computers on two of its ports, it seems to function fine. Good news for my engineering as far as the schematic and impedance control, so that's a relief! However, the board actually has multiple interconnected switches to increase the number of available ports available externally. When I connect to one switch and try to send traffic to a computer on another switch, I get nothing. Well, nothing works perfectly the first time, right?
 
-In my quest for some answers and a solution (Turns out it was an speed auto-negotiation problem between ethernet ports!), my googling took me to this Texas Instruments forum post:
+In my quest for some answers and a solution (Turns out it was a speed auto-negotiation problem between ethernet ports!), my googling took me to this Texas Instruments forum post:
 [https://e2e.ti.com/support/interface/f/138/t/821181](https://e2e.ti.com/support/interface/f/138/t/821181).
 The resolution to the problem might be applying all patches outlined in the errata document for the KSZ9896C. After reviewing it, I figured that the solutions proposed in the document should be applied to my switches anyways, regardless if they solved my issues.
 
