@@ -1,0 +1,90 @@
+---
+layout: default
+title: Home
+---
+
+<body class="homepage">
+  <div class="greeting">
+    <div class="container" style="height: 100%">
+      <div class="row h-50 align-content-end justify-content-end">
+        <div class="col-5 text-center" style="font-size: 90px">
+          <h1>My Name is Troy</h1>
+        </div>
+      </div>
+      <div class="row h-50 align-content-center justify-content-end">
+        <div class="col col-8 text-center">
+          <h2>Welcome to my Adventure on the Web</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container about-cards mw-100">
+      <div class="row justify-content-center">
+        <div class="col-2 justify-content-center">
+          <h2 class="light-title">About Me</h2>
+          <h5 class="light-title">(Tap or hover over the cards)</h5>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-3 justify-content-center">
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front purple-card-front">
+                <img src="/assets/images/WVOutline.png" alt="" style="height: 150px">
+                <h2>Mountaineer</h2>
+                <p>Proud to be a West Virginia University Alum.</p>
+              </div>
+              <div class="flip-card-back purple-card-back">
+                <h2>Let's Go Mountaineers!</h2>
+                <p>I graduated from WVU in 2019 with a degree in Electrical
+                  Engineering and another in Computer Engineering.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 justify-content-center">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front green-card-front">
+                <h2>Engineer</h2>
+                <p>Engineering is my jam! And it's also my profession.</p>
+              </div>
+              <div class="flip-card-back green-card-back">
+                <h2>More than a job</h2>
+                <p>I love learning about technology and applying what I know to build
+                  new things. Right now I do that as an Electrical Engineer, focusing
+                  on hardware design. But, there's never enough time in the day
+                  to finish all of my pet projects!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 justify-content-center">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front purple-card-front">
+                <img src="/assets/images/hiker.png" alt="" style="height: 150px; padding-top: 20px">
+                <h2>Explorer</h2>
+                <p>I love travelling and backpacking. I'm probably planning my next
+                  adventure right now.</p>
+              </div>
+              <div class="flip-card-back purple-card-back">
+                <h2>Where to next?</h2>
+                <p>Send me a DM about a recent trip you've taken that you really
+                  enjoyed. I'm always on the lookout for good ideas! Check out my
+                  Insta to see where I've been recently.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  {% include bloglist.html %}
+
+</body>
