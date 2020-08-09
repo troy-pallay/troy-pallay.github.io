@@ -60,6 +60,6 @@ And here is the final graph showing the percentage of the ideal capacitance that
 
 I have done this experiment a few times with multiple capacitors, but this data is only for a single one. The trend seems to be about the same for me with any cap I choose. Since I am not taking data points from many many trials and averaging them all, this data is far from conclusive. Luckily, there are researchers and companies who have written extensively on this. If you'd like to read a more, I found this post by KEMET that explains things in a bit more detail: <https://ec.kemet.com/blog/mlcc-dielectric-differences/>.
 
-Send me an email at mailto:posts@troypallay.com if you learned something in this post. Also please let me know if you find something incorrect!
+Send me an email at <mailto:posts@troypallay.com> if you learned something in this post. Also please let me know if you find something incorrect!
 
 -Troy
