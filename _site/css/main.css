@@ -2319,7 +2319,7 @@ html { background-color: #292a29; }
 
 .greeting { width: 100%; height: 100vh; background-image: url("/assets/images/COSandDunes.jpg"); background-repeat: no-repeat; background-size: cover; background-position: center; }
 
-.homepage h1 { font-size: 70px; }
+.homepage h1 { padding-top: 50px; font-size: 70px; }
 
 .homepage h2 { font-size: 55px; padding: 10px; }
 
@@ -2345,7 +2345,7 @@ html { background-color: #292a29; }
 
 .page-footer { background-color: #292a29; }
 
-.footer-container { padding: 50px; }
+.footer-container { padding-bottom: 50px; }
 
 .spacer50 { height: 50px; }
 
