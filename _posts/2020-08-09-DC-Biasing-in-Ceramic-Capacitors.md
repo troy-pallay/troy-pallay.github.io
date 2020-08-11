@@ -42,7 +42,7 @@ This table shows the voltage rise over which I am measuring the time constant. I
 
 <hr>
 
-I captured a few of the rise times on the oscilloscope:
+I captured a few of the rise times on the oscilloscope. In order to get the cursors of oscilloscope as close as possible, I did have to change the scale of the axis between captures, so I apologize for the misleading discrepencies. However, the cursor data in the righthand portion of the screenshot shows the information we care about. That would be deltaX giving our measured 𝜏 value and the Y1 and Y2 values showing our start and stop voltages.
 
 ![Rise time of capacitor with DC bias of 5V](/assets/posts/dc-biasing-in-ceramic-capacitors-02.png)
 
@@ -58,7 +58,8 @@ And here is the final graph showing the percentage of the ideal capacitance that
 
 ![Percentage of Ideal Capacitance vs DC Bias](/assets/posts/dc-biasing-in-ceramic-capacitors-06.png)
 
-I have done this experiment a few times with multiple capacitors, but this data is only for a single one. The trend seems to be about the same for me with any cap I choose. Since I am not taking data points from many many trials and averaging them all, this data is far from conclusive. Luckily, there are researches and companies who have written extensively on this. If you'd like to read a more, I found this post by KEMET that explains things in a bit more detail: https://ec.kemet.com/blog/mlcc-dielectric-differences/.
+I have done this experiment a few times with multiple capacitors, but this data is only for a single one. The trend seems to be about the same for me with any cap I choose. Since I am not taking data points from many many trials and averaging them all, this data is far from conclusive. Luckily, there are researchers and companies who have written extensively on this. If you'd like to read a more, I found this post by KEMET that explains things in a bit more detail: <https://ec.kemet.com/blog/mlcc-dielectric-differences/>.
 
-Send me an email at mail@troypallay.com if you learned something in this post. Also please let me know if you find something incorrect!
+Send me an email at <mailto:posts@troypallay.com> if you learned something in this post. Also please let me know if you find something incorrect!
+
 -Troy
