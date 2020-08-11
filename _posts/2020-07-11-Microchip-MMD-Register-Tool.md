@@ -3,7 +3,7 @@ layout: post
 title: "Microchip MMD Register Tool"
 author: "Troy Pallay"
 date: 2020-07-11 17:23:00 -0400
-categories: microchip c software
+categories: software project
 ---
 
 Recently I have been working with Microchip's KSZ9896C Gigabit Ethernet Switch in a board design (datasheet found **[here](https://www.microchip.com/wwwproducts/en/KSZ9896)**). When the switch is handling packets between two computers on two of its ports, it seems to function fine. Good news for my engineering as far as the schematic and impedance control, so that's a relief! However, the board actually has multiple interconnected switches to increase the number of available ports available externally. When I connect to one switch and try to send traffic to a computer on another switch, I get nothing. Well, nothing works perfectly the first time, right?

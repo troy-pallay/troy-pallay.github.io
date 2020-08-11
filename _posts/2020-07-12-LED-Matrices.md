@@ -3,7 +3,7 @@ layout: post
 title: "LED Matrices"
 author: "Troy Pallay"
 date: 2020-07-12 12:23:00 -0400
-categories: arduino
+categories: hardware experiment breadboard arduino
 ---
 
 _This is an old post migrated from my previous site._

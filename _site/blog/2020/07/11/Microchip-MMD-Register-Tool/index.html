@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Troy's Website</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <script>
+  window.onload = function() {
+    let mainNav = document.getElementById('js-menu');
+    let navBarToggle = document.getElementById('js-navbar-toggle');
+
+    navBarToggle.addEventListener('click', function () {
+      console.log("clicked");
+      mainNav.classList.toggle('active');
+    });
+  };
+</script>
+<nav class="navbar">
+  <span class="navbar-toggle" id="js-navbar-toggle">
+      <i class="fas fa-bars"></i>
+  </span>
+  <a href="/" class="logo">
+    <img src="/assets/images/TroyLogoInvert.png" width="60px" height="60px">
+  </a>
+  <ul class="main-nav" id="js-menu">
+      <li>
+          <a href="/" class="nav-links">Home</a>
+      </li>
+      <li>
+          <a href="/blog" class="nav-links">Blog</a>
+      </li>
+  </ul>
+</nav>
+
+  <div class="spacer100">
+  </div>
+
+  <div class="container blog-container">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h1 class="blogtitle">Microchip MMD Register Tool</h1>
+        <p class="blogdate">11 Jul 2020 - Troy Pallay</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <p>Recently I have been working with Microchip’s KSZ9896C Gigabit Ethernet Switch in a board design (datasheet found <strong><a href="https://www.microchip.com/wwwproducts/en/KSZ9896">here</a></strong>). When the switch is handling packets between two computers on two of its ports, it seems to function fine. Good news for my engineering as far as the schematic and impedance control, so that’s a relief! However, the board actually has multiple interconnected switches to increase the number of available ports available externally. When I connect to one switch and try to send traffic to a computer on another switch, I get nothing. Well, nothing works perfectly the first time, right?</p>
+
+<p>In my quest for some answers and a solution (Turns out it was a speed auto-negotiation problem between ethernet ports!), my googling took me to this Texas Instruments forum post:
+<a href="https://e2e.ti.com/support/interface/f/138/t/821181">https://e2e.ti.com/support/interface/f/138/t/821181</a>.
+The resolution to the problem might be applying all patches outlined in the errata document for the KSZ9896C. After reviewing it, I figured that the solutions proposed in the document should be applied to my switches anyways, regardless if they solved my issues.</p>
+
+<p>As of me writing this, the errata document outlines 14 identified issues and offers solutions for most of them (check out that document <strong><a href="http://ww1.microchip.com/downloads/en/DeviceDoc/80000757C.pdf">here</a></strong>). Of these solutions, many involve simply changing some register values. In my case, I am managing the switch and changing these registers over the SPI interface. Performing reads and writes is relatively easy given an address and data. I’ve included a picture below that shows the format that SPI data should be in for reads and writes. This is given in the datasheet starting on page 53.</p>
+
+<p><img src="/assets/posts/microchip-mmd-register-tool-01.png" alt="SPI data format" /></p>
+
+<p>The difficulty with quite a few of the errata fixes arises from the fact that they deal with MMD registers. These are indirect registers that are not directly accessible, and require a bit more work to read and write to. In fact, the only way to interact with these special registers is through two ‘portal registers’ that are in the regular address space. page 167 of the KSZ9896C data sheet goes into detail about the process to access the MMD registers, as well as some examples.</p>
+
+<p><img src="/assets/posts/microchip-mmd-register-tool-02.png" alt="MMD register examples" /></p>
+
+<p>In order to actually apply these errata fixes then, it is necessary to translate quite a few mmd register writes into a usable SPI transmittable form. Microchip did not have the data in this format readily on hand, so I have decided to create a quick C program that takes in a file listing the mmd register addresses and data, and spits out a vhdl file holding all the binary data in an array. I do this simply becuase I am communicating with my switches through the use of an onboard FPGA. Hopefully you find this tool useful!</p>
+
+<p>I’ve made a repo for the program that you can find here:
+<a href="https://github.com/troy-pallay/uchip-mmd-register-tool">https://github.com/troy-pallay/uchip-mmd-register-tool</a></p>
+
+<p>-Troy</p>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Grid row-->
+    <div class="row justify-content-center">
+        <div class="col-2">
+          <!-- Twitter -->
+          <a class="btn-floating btn-tw mx-1" href="https://twitter.com/TroyPallay">
+            <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+        <div class="col-2">
+          <!--Linkedin -->
+          <a class="li-ic" href="https://www.linkedin.com/in/troypallay/">
+            <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+        <div class="col-2">
+          <!--Instagram-->
+          <a class="ins-ic" href="https://www.instagram.com/troypallay/">
+            <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row-->
+
+  </div>
+  <!-- Footer Elements -->
+
+</footer>
+<!-- Footer -->
+
+
+</html>

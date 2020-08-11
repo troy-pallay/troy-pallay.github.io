@@ -1,14 +1,27 @@
-<div class="mynav container mw-100">
-  <div class="row">
-    <div class="col">
-      <a class="navbar-brand" href="/">
-        <img src="/assets/images/TroyLogoInvert.png" alt="">
-      </a>
-    </div>
-    {% for item in site.data.navigation %}
-      <div class="col-sm-1">
-        <a class="nav-link" href="{{ item.link }}">{{ item.name }}</a>
-      </div>
-    {% endfor %}
-  </div>
-</div>
+<script>
+  window.onload = function() {
+    let mainNav = document.getElementById('js-menu');
+    let navBarToggle = document.getElementById('js-navbar-toggle');
+
+    navBarToggle.addEventListener('click', function () {
+      console.log("clicked");
+      mainNav.classList.toggle('active');
+    });
+  };
+</script>
+<nav class="navbar">
+  <span class="navbar-toggle" id="js-navbar-toggle">
+      <i class="fas fa-bars"></i>
+  </span>
+  <a href="/" class="logo">
+    <img src="/assets/images/TroyLogoInvert.png" width="60px" height="60px">
+  </a>
+  <ul class="main-nav" id="js-menu">
+      <li>
+          <a href="/" class="nav-links">Home</a>
+      </li>
+      <li>
+          <a href="/blog" class="nav-links">Blog</a>
+      </li>
+  </ul>
+</nav>

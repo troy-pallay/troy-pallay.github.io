@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Troy's Website</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <script>
+  window.onload = function() {
+    let mainNav = document.getElementById('js-menu');
+    let navBarToggle = document.getElementById('js-navbar-toggle');
+
+    navBarToggle.addEventListener('click', function () {
+      console.log("clicked");
+      mainNav.classList.toggle('active');
+    });
+  };
+</script>
+<nav class="navbar">
+  <span class="navbar-toggle" id="js-navbar-toggle">
+      <i class="fas fa-bars"></i>
+  </span>
+  <a href="/" class="logo">
+    <img src="/assets/images/TroyLogoInvert.png" width="60px" height="60px">
+  </a>
+  <ul class="main-nav" id="js-menu">
+      <li>
+          <a href="/" class="nav-links">Home</a>
+      </li>
+      <li>
+          <a href="/blog" class="nav-links">Blog</a>
+      </li>
+  </ul>
+</nav>
+
+  <div class="spacer100">
+  </div>
+
+  <div class="container blog-container">
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <h1 class="blogtitle">DC Biasing in Ceramic Capacitors</h1>
+        <p class="blogdate">09 Aug 2020 - Troy Pallay</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <p>When selecting capacitors to use in a board design, multilayer ceramic chip capacitors (MLCCs) are often a good choice. These non-polarized caps are available in relatively high capacitance values and for a cheap price. Their non-polarity can make them more suitable for AC applications, as opposed to their electrolytic brethren. They also tend to have a <em>much</em> longer shelf-life. However, there are drawbacks to many ceramic capacitors that you will have to consider before soldering them to your board and calling it a day.</p>
+
+<p>MLCCs are divided into classes based on trade-offs between their stability under different operating conditions and their volumetric efficiency. This is a bit of an oversimplification, but the general idea is that ceramics that offer very high stability in their capacitance over a range of temperatures and voltages require a dialectric material that does not permit large capacitance in a small package (Class I). Conversely, ceramics that use a dialectric that does allow for higher capacitancies will probably not be as stable accross those same temperature and voltage ranges (Class II). Again, the specifics of this are much more complex and nuanced than the few sentences I have spent explaining it. As always, if you want a deep dive into the history, physics, and nomenclature, the wikipedia article on the <strong><a href="https://en.wikipedia.org/wiki/Ceramic_capacitor">Ceramic Capacitor</a></strong> is an interesting read.</p>
+
+<p>In this post however, I specifically want to explore the experimental relationship between the DC voltage bias and capacitance while using caps that utilize an X7R dialectric. This type of dialectric is very common and falls under Class II in the categorization of ceramic caps. As we will soon see, some of these ceramic capacitors have quite a high voltage rating. To the unaware engineer (me), they might assume that this voltage rating signifies a threshold beyond which the capacitor will fail. While this may be true, the reality is that depending on the construction of the component, we may start to see unwanted behavior well before this threshold. And, depending on the sensitivity of our application, this behavour may be catastrophic to our circuit. The results of this experiment should show that going to digikey and selecting a 2.2uF ceramic cap may not be as cut and dry as you might believe.</p>
+
+<p>For our setup, I have created a simple RC circuit to subject a ceramic cap to different voltages (Vapp). By placing the probe of my oscilloscope on the capacitor, we should be able to measure the time constant displayed by the circuit as it charges. This will allow us to calculate the experimental capacitance exhibited by the MLCC. I will be using a 10k resistor to charge the capacitor, and a pushbutton to discharge the circuit so that we can measure the charging ramp again. When discharging the circuit, I press the push-button in order to short the two leads of the capacitor. I have also set up my oscilloscope to trigger on the rising edge. The simple circuit is shown below:</p>
+
+<p><img src="/assets/posts/dc-biasing-in-ceramic-capacitors-01.png" alt="DC Biasing in Ceramic Capacitors Experiment Schematic" /></p>
+
+<p>The capacitors that I am using are rated for 50V. I would have liked to test them over their complete range, but for today I can only test them up to 30V. Even though this does not cover their supposed capability, we should still be able to clearly see the trend I am trying to highlight.</p>
+
+<p>So as I am sure you know, the time constant of an RC circuit is represented as:</p>
+
+<p>𝜏 = R * C</p>
+
+<p>Since we are measuring the rise time of our circuit, this 𝜏 value is also equal to the period of time it takes for the capacitor to charge from zero volts to 63.2% of the applied voltage (Vapp). I will actually be measuring the time it takes to charge from 20% of Vapp up to 63.2% of the remaining voltage rise. For example, for a Vapp of 5V, I would like the start of my interval at 1V. And since 63.2% of the remaining voltage rise between 1V and Vapp is 2.528V, the end of my interval will be at 3.528V.</p>
+
+<p>Vend = .632 * (Vapp - Vstart) + Vstart</p>
+
+<p>Having measured the value of 𝜏 in the circuit, we can use the original equation for the time constant and the resistor value to find the capacitance. Hopefully it will always be 2.2uF? Let’s find out.</p>
+
+<p>This table shows the voltage rise over which I am measuring the time constant. I calculate the experimental capacitance as well, using the measured resistance R = 9.77kOhms.</p>
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Vapp</th>
+      <th style="text-align: center">Vstart</th>
+      <th style="text-align: center">Vend</th>
+      <th style="text-align: center">𝜏</th>
+      <th style="text-align: center">Cexp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">5V</td>
+      <td style="text-align: center">1V</td>
+      <td style="text-align: center">3.528V</td>
+      <td style="text-align: center">21.8ms</td>
+      <td style="text-align: center">2.17uF</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">10V</td>
+      <td style="text-align: center">2V</td>
+      <td style="text-align: center">7.056V</td>
+      <td style="text-align: center">21.7ms</td>
+      <td style="text-align: center">2.16uF</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">15V</td>
+      <td style="text-align: center">3V</td>
+      <td style="text-align: center">10.584V</td>
+      <td style="text-align: center">19.6ms</td>
+      <td style="text-align: center">1.95uF</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">20V</td>
+      <td style="text-align: center">4V</td>
+      <td style="text-align: center">14.112V</td>
+      <td style="text-align: center">15.8ms</td>
+      <td style="text-align: center">1.57uF</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">25V</td>
+      <td style="text-align: center">5V</td>
+      <td style="text-align: center">17.640V</td>
+      <td style="text-align: center">13.6ms</td>
+      <td style="text-align: center">1.35uF</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">30V</td>
+      <td style="text-align: center">6V</td>
+      <td style="text-align: center">21.168V</td>
+      <td style="text-align: center">10.8ms</td>
+      <td style="text-align: center">1.08uF</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p>I captured a few of the rise times on the oscilloscope:</p>
+
+<p><img src="/assets/posts/dc-biasing-in-ceramic-capacitors-02.png" alt="Rise time of capacitor with DC bias of 5V" /></p>
+
+<p><img src="/assets/posts/dc-biasing-in-ceramic-capacitors-03.png" alt="Rise time of capacitor with DC bias of 20V" /></p>
+
+<p><img src="/assets/posts/dc-biasing-in-ceramic-capacitors-04.png" alt="Rise time of capacitor with DC bias of 30V" /></p>
+
+<p>As you can see from the waveforms, the rise time of the 30V bias is significantly quicker than that of the 5V bias. I have also put the results in graph form:</p>
+
+<p><img src="/assets/posts/dc-biasing-in-ceramic-capacitors-05.png" alt="Experimental Capacitance vs DC Bias" /></p>
+
+<p>And here is the final graph showing the percentage of the ideal capacitance that is actually present at different bias voltages.</p>
+
+<p><img src="/assets/posts/dc-biasing-in-ceramic-capacitors-06.png" alt="Percentage of Ideal Capacitance vs DC Bias" /></p>
+
+<p>I have done this experiment a few times with multiple capacitors, but this data is only for a single one. The trend seems to be about the same for me with any cap I choose. Since I am not taking data points from many many trials and averaging them all, this data is far from conclusive. Luckily, there are researches and companies who have written extensively on this. If you’d like to read a more, I found this post by KEMET that explains things in a bit more detail: https://ec.kemet.com/blog/mlcc-dielectric-differences/.</p>
+
+<p>Send me an email at mail@troypallay.com if you learned something in this post. Also please let me know if you find something incorrect!
+-Troy</p>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Grid row-->
+    <div class="row justify-content-center">
+        <div class="col-2">
+          <!-- Twitter -->
+          <a class="btn-floating btn-tw mx-1" href="https://twitter.com/TroyPallay">
+            <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+        <div class="col-2">
+          <!--Linkedin -->
+          <a class="li-ic" href="https://www.linkedin.com/in/troypallay/">
+            <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+        <div class="col-2">
+          <!--Instagram-->
+          <a class="ins-ic" href="https://www.instagram.com/troypallay/">
+            <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row-->
+
+  </div>
+  <!-- Footer Elements -->
+
+</footer>
+<!-- Footer -->
+
+
+</html>

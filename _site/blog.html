@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Troy's Website</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+  <script>
+  window.onload = function() {
+    let mainNav = document.getElementById('js-menu');
+    let navBarToggle = document.getElementById('js-navbar-toggle');
+
+    navBarToggle.addEventListener('click', function () {
+      console.log("clicked");
+      mainNav.classList.toggle('active');
+    });
+  };
+</script>
+<nav class="navbar">
+  <span class="navbar-toggle" id="js-navbar-toggle">
+      <i class="fas fa-bars"></i>
+  </span>
+  <a href="/" class="logo">
+    <img src="/assets/images/TroyLogoInvert.png" width="60px" height="60px">
+  </a>
+  <ul class="main-nav" id="js-menu">
+      <li>
+          <a href="/" class="nav-links">Home</a>
+      </li>
+      <li>
+          <a href="/blog" class="nav-links">Blog</a>
+      </li>
+  </ul>
+</nav>
+
+  <div class="spacer100">
+</div>
+<div class="container bloglist">
+  <div class="row justify-content-center">
+    <h2>Check out these blog posts!</h2>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      
+        <div class="bloglist-item">
+          <a href="/blog/2020/08/09/DC-Biasing-in-Ceramic-Capacitors/">DC Biasing in Ceramic Capacitors</a>
+          <p>Posted on:&nbsp;&nbsp;&nbsp;&nbsp;09 Aug 2020</p>
+        </div>
+      
+        <div class="bloglist-item">
+          <a href="/blog/2020/07/12/LED-Matrices/">LED Matrices</a>
+          <p>Posted on:&nbsp;&nbsp;&nbsp;&nbsp;12 Jul 2020</p>
+        </div>
+      
+        <div class="bloglist-item">
+          <a href="/blog/2020/07/11/Microchip-MMD-Register-Tool/">Microchip MMD Register Tool</a>
+          <p>Posted on:&nbsp;&nbsp;&nbsp;&nbsp;11 Jul 2020</p>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <!-- JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- Footer -->
+<footer class="page-footer font-small special-color-dark pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Grid row-->
+    <div class="row justify-content-center">
+        <div class="col-2">
+          <!-- Twitter -->
+          <a class="btn-floating btn-tw mx-1" href="https://twitter.com/TroyPallay">
+            <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+        <div class="col-2">
+          <!--Linkedin -->
+          <a class="li-ic" href="https://www.linkedin.com/in/troypallay/">
+            <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+        <div class="col-2">
+          <!--Instagram-->
+          <a class="ins-ic" href="https://www.instagram.com/troypallay/">
+            <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+        </div>
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row-->
+
+  </div>
+  <!-- Footer Elements -->
+
+</footer>
+<!-- Footer -->
+
+
+</html>

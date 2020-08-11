@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+            .entry-wrap {
+                background-color: #0000;
+                box-shadow: none;
+                padding-top: 0px;
+            }
+
+            body {
+                background-image: url("/assets/images/diodeAppBackground-1024x696.png");
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+
+            h1 {
+                display: flex;
+                justify-content: center;
+                font-size: 55px;
+            }
+
+            h2 {
+                margin-top: auto;
+                margin-bottom: auto;
+                padding: 10px;
+                color: #e03535;
+            }
+
+            button {
+                background-color: green;
+                border: none;
+                color: white;
+                text-align: center;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 12px;
+                padding: 10px;
+            }
+
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                flex-direction: row;
+                align-content: center;
+            }
+
+        	.cathodeBtn {
+                margin-left: 80px;
+                margin-right: 80px;
+                margin-bottom: 10px;
+            }
+
+            .anodeBtn {
+               margin-top: 50px;
+               margin-bottom: 50px;
+            }
+
+            #explanation {
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 30px;
+                background-color: #adadad;
+                border-radius: 4px;
+                box-shadow: 0 0.15em 0.35em 0 rgba(0,0,0,0.135);
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <h1>LED Matrix Simulator</h1>
+        <div class="container">
+            <div id="cathodeBtns">
+                <button onclick = "cathode1()" class="cathodeBtn">Toggle Cathode Bank 1</button>
+                <button onclick = "cathode2()" class="cathodeBtn">Toggle Cathode Bank 2</button>
+                <button onclick = "cathode3()" class="cathodeBtn">Toggle Cathode Bank 3</button>
+            </div>
+
+            <div id="canvasDiv">
+
+                <canvas id="myCanvas" width="900px" height="600px"
+                style="border:1px solid #000000;">
+                Your browser does not support the canvas element.
+                </canvas>
+
+            </div>
+            <div>
+
+                <div>
+                    <button onclick = "anode3()" class="anodeBtn">Toggle Anode Bank 3</button>
+                </div>
+                <div>
+                    <button onclick = "anode2()" class="anodeBtn">Toggle Anode Bank 2</button>
+                </div>
+                <div>
+                    <button onclick = "anode1()" class="anodeBtn">Toggle Anode Bank 1</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="explanation">
+            <h2>What the Heck is This?</h2>
+            <p>
+                This is a simple javascript app that I made in order to show the operation of a small LED matrix. The red and blue lines in the window represent wires connected to the cathodes and anodes of LEDs. The vertical lines correspond to wires connected to the cathodes, while horizontal lines represent wires connected to the anodes. The LEDs are gray circles that turn green when their anode is held high (red) and cathode held low (blue).
+            </p>
+            <p>
+                It is supposed to be a top-down view of LEDs on a breadboard, and it makes a lot of sense if you check out my blog post on <a href="https://troypallay.com/blog/led-matrices">LED Matrices</a>. Go ahead and give that link a look-see if you didn't already come from there.
+            </p>
+            <p>
+                It's also my first attempt at useful javascript! For those of you who actually know what you are doing, you may cringe at my lengthy code for making this work. I apologize if I offend anyone... If you happen to be using Google Chrome and you know where to dig, you can see my code using 'F12'.
+            </p>
+        </div>
+
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            console.log("screen width: " + screen.width);
+            console.log("screen height: " + screen.height);
+            var canvas_x = Math.round(screen.width * .45);
+            var canvas_y = Math.round(screen.height * .55);
+            console.log("canvas width: " + canvas_x);
+            console.log("canvas height: " + canvas_y);
+
+            canvas.setAttribute("style", canvas_x + "px");
+
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0,0,canvas_x,canvas_y);
+
+            var lines = {
+                'cathode1': "high",
+                'cathode2': "high",
+                'cathode3': "high",
+
+                'anode1': "low",
+                'anode2': "low",
+                'anode3': "low"
+            };
+
+            var matrix = {
+                'led00': "off",
+                'led01': "off",
+                'led02': "off",
+                'led10': "off",
+                'led11': "off",
+                'led12': "off",
+                'led20': "off",
+                'led21': "off",
+                'led22': "off"
+            };
+
+            // Drawing initial states of cathodes
+            ctx.fillStyle = "red";
+            ctx.fillRect(100,50,25,500);
+            ctx.fillRect(400,50,25,500);
+            ctx.fillRect(700,50,25,500);
+
+            // Drawing initial states of anodes
+            ctx.fillStyle = "blue";
+            ctx.fillRect(25,100,750,25);
+            ctx.fillRect(25,250,750,25);
+            ctx.fillRect(25,400,750,25);
+
+            function drawDiode(x, y, r, s, e) {
+                ctx.beginPath();
+                ctx.arc(x, y, r, s, e);
+                ctx.stroke();
+                ctx.fill();
+
+                //console.log("drawing diode at " + x + ", " + y);
+            }
+
+            function logLines() {
+                console.log("cathode1: " + lines.cathode1 + "\n" +
+                    "cathode2: " + lines.cathode2 + "\n" +
+                    "cathode3: " + lines.cathode3 + "\n\n" +
+                    "anode1: " + lines.anode1 + "\n" +
+                    "anode2: " + lines.anode2 + "\n" +
+                    "anode3: " + lines.anode3);
+            }
+
+            // Drawing initial states of Diodes
+            ctx.fillStyle = "gray";
+            drawDiode(87.5,112.5,50,0,2*Math.PI);
+            drawDiode(87.5,262.5,50,0,2*Math.PI);
+            drawDiode(87.5,412.5,50,0,2*Math.PI);
+
+            drawDiode(387.5,112.5,50,0,2*Math.PI);
+            drawDiode(387.5,262.5,50,0,2*Math.PI);
+            drawDiode(387.5,412.5,50,0,2*Math.PI);
+
+            drawDiode(687.5,112.5,50,0,2*Math.PI);
+            drawDiode(687.5,262.5,50,0,2*Math.PI);
+            drawDiode(687.5,412.5,50,0,2*Math.PI);
+
+            function cathode1() {
+
+                if (lines.cathode1 == "low") lines.cathode1 = "high"; else lines.cathode1 = "low";
+                if (lines.cathode1 == "low") ctx.fillStyle = "blue"; else ctx.fillStyle = "red";
+                ctx.fillRect(100,50,25,500);
+
+                if (lines.cathode1 == "low" && lines.anode1 == "high") {
+                    matrix.led00 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led00 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(87.5,112.5,50,0,2*Math.PI);
+
+                if (lines.cathode1 == "low" && lines.anode2 == "high") {
+                    matrix.led01 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led01 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(87.5,262.5,50,0,2*Math.PI);
+
+
+                if (lines.cathode1 == "low" && lines.anode3 == "high") {
+                    matrix.led02 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led02 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(87.5,412.5,50,0,2*Math.PI);
+
+                //logLines();
+
+            }
+
+            function cathode2() {
+
+                if (lines.cathode2 == "low") lines.cathode2 = "high"; else lines.cathode2 = "low";
+                if (lines.cathode2 == "low") ctx.fillStyle = "blue"; else ctx.fillStyle = "red";
+                ctx.fillRect(400,50,25,500);
+
+                if (lines.cathode2 == "low" && lines.anode1 == "high") {
+                    matrix.led10 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led10 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(387.5,112.5,50,0,2*Math.PI);
+
+
+                if (lines.cathode2 == "low" && lines.anode2 == "high") {
+                    matrix.led11 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led11 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(387.5,262.5,50,0,2*Math.PI);
+
+                if (lines.cathode2 == "low" && lines.anode3 == "high") {
+                    matrix.led12 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led12 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(387.5,412.5,50,0,2*Math.PI);
+
+                //logLines();
+
+            }
+
+            function cathode3() {
+
+                if (lines.cathode3 == "low") lines.cathode3 = "high"; else lines.cathode3 = "low";
+                if (lines.cathode3 == "low") ctx.fillStyle = "blue"; else ctx.fillStyle = "red";
+                ctx.fillRect(700,50,25,500);
+
+                if (lines.cathode3 == "low" && lines.anode1 == "high") {
+                    matrix.led20 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led20 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(687.5,112.5,50,0,2*Math.PI);
+
+                if (lines.cathode3 == "low" && lines.anode2 == "high") {
+                    matrix.led21 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led21 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(687.5,262.5,50,0,2*Math.PI);
+
+
+                if (lines.cathode3 == "low" && lines.anode3 == "high") {
+                    matrix.led22 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led22 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(687.5,412.5,50,0,2*Math.PI);
+
+                //logLines();
+
+            }
+
+            function anode1() {
+
+                if (lines.anode1 == "low") lines.anode1 = "high"; else lines.anode1 = "low";
+                if (lines.anode1 == "low") ctx.fillStyle = "blue"; else ctx.fillStyle = "red";
+                ctx.fillRect(25,400,750,25);
+
+                if (lines.anode1 == "high" && lines.cathode1 == "low") {
+                    matrix.led00 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led00 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(87.5,412.5,50,0,2*Math.PI);
+
+
+                if (lines.anode1 == "high" && lines.cathode2 == "low") {
+                    matrix.led10 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led10 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(387.5,412.5,50,0,2*Math.PI);
+
+
+                if (lines.anode1 == "high" && lines.cathode3 == "low") {
+                    matrix.led20 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led20 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(687.5,412.5,50,0,2*Math.PI);
+
+                //logLines();
+
+            }
+
+            function anode2() {
+
+                if (lines.anode2 == "low") lines.anode2 = "high"; else lines.anode2 = "low";
+                if (lines.anode2 == "low") ctx.fillStyle = "blue"; else ctx.fillStyle = "red";
+                ctx.fillRect(25,250,750,25);
+
+                if (lines.anode2 == "high" && lines.cathode1 == "low") {
+                    matrix.led01 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led01 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(87.5,262.5,50,0,2*Math.PI);
+
+
+                if (lines.anode2 == "high" && lines.cathode2 == "low") {
+                    matrix.led11 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led11 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(387.5,262.5,50,0,2*Math.PI);
+
+
+                if (lines.anode2 == "high" && lines.cathode3 == "low") {
+                    matrix.led21 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led21 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(687.5,262.5,50,0,2*Math.PI);
+
+                //logLines();
+
+            }
+
+            function anode3() {
+
+                if (lines.anode3 == "low") lines.anode3 = "high"; else lines.anode3 = "low";
+                if (lines.anode3 == "low") ctx.fillStyle = "blue"; else ctx.fillStyle = "red";
+                ctx.fillRect(25,100,750,25);
+
+                if (lines.anode3 == "high" && lines.cathode1 == "low") {
+                    matrix.led02 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led02 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(87.5,112.5,50,0,2*Math.PI);
+
+
+                if (lines.anode3 == "high" && lines.cathode2 == "low") {
+                    matrix.led12 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led12 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(387.5,112.5,50,0,2*Math.PI);
+
+
+                if (lines.anode3 == "high" && lines.cathode3 == "low") {
+                    matrix.led22 = "on";
+                    ctx.fillStyle = "green";
+                }
+                else {
+                    matrix.led22 = "off";
+                    ctx.fillStyle = "gray";
+                }
+                drawDiode(687.5,112.5,50,0,2*Math.PI);
+
+                //logLines();
+
+            }
+
+        </script>
+
+    </body>
+</html>
