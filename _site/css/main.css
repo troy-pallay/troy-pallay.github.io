@@ -2343,7 +2343,9 @@ html { background-color: #292a29; }
 
 .blogtitle { font-family: "Oswald",sans-serif; font-size: 80px; font-style: normal; font-weight: 400; text-shadow: none; }
 
-.page-footer { background-color: #292a29; margin-bottom: 15px; }
+.page-footer { background-color: #292a29; }
+
+.footer-container { padding: 50px; }
 
 .spacer50 { height: 50px; }
 
